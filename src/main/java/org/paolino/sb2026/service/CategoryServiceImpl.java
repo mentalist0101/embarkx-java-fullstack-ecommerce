@@ -1,5 +1,6 @@
 package org.paolino.sb2026.service;
 
+import org.paolino.sb2026.exceptions.APIException;
 import org.paolino.sb2026.exceptions.ResourceNotFoundException;
 import org.paolino.sb2026.model.Category;
 import org.paolino.sb2026.repositories.CategoryRepository;
@@ -21,6 +22,9 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void createCategory(Category category) {
+        Category savedCategory = categoryRepository.findByCategoryName(category.getCategoryName());
+        if (savedCategory != null)
+            throw new APIException("Category with the name " + category.getCategoryName() + " already exists !!!");
         categoryRepository.save(category);
     }
 
