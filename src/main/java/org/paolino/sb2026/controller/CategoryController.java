@@ -2,6 +2,7 @@ package org.paolino.sb2026.controller;
 
 import jakarta.validation.Valid;
 import org.paolino.sb2026.model.Category;
+import org.paolino.sb2026.payload.CategoryDTO;
 import org.paolino.sb2026.payload.CategoryResponse;
 import org.paolino.sb2026.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class CategoryController {
 
     @PostMapping("/public/categories")
     //@RequestMapping(value = "/public/categories", method = RequestMethod.POST)
-    public ResponseEntity<String> createCategory(@Valid @RequestBody Category category){
-        categoryService.createCategory(category);
-        return new ResponseEntity<>("Category added successfully", HttpStatus.CREATED);
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
+        CategoryDTO savedCategoryDTO = categoryService.createCategory(categoryDTO);
+        return new ResponseEntity<>(savedCategoryDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/public/categories/{categoryId}")
