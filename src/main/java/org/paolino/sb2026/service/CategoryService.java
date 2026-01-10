@@ -1,11 +1,10 @@
 package org.paolino.sb2026.service;
 
 import org.paolino.sb2026.model.Category;
-
-import java.util.List;
+import org.paolino.sb2026.payload.CategoryResponse;
 
 public interface CategoryService {
-    List<Category> getAllCategories();
+    CategoryResponse getAllCategories();
     void createCategory(Category category);
     Category updateCategory(Category category, Long categoryId);
     String deleteCategory(Long categoryId);

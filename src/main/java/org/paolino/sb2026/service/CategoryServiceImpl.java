@@ -1,8 +1,11 @@
 package org.paolino.sb2026.service;
 
+import org.modelmapper.ModelMapper;
 import org.paolino.sb2026.exceptions.APIException;
 import org.paolino.sb2026.exceptions.ResourceNotFoundException;
 import org.paolino.sb2026.model.Category;
+import org.paolino.sb2026.payload.CategoryDTO;
+import org.paolino.sb2026.payload.CategoryResponse;
 import org.paolino.sb2026.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +18,18 @@ public class CategoryServiceImpl implements CategoryService{
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public List<Category> getAllCategories() {
+    public CategoryResponse getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
         if (categories.isEmpty())
             throw new APIException("No category created till now.");
-        return categories;
+        List<CategoryDTO> categoryDTOS = categories.stream()
+                .map(category -> modelMapper.map(category, CategoryDTO.class))
+                .toList();
+        return new CategoryResponse(categoryDTOS);
     }
 
     @Override
