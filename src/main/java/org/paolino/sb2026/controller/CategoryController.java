@@ -1,7 +1,6 @@
 package org.paolino.sb2026.controller;
 
 import jakarta.validation.Valid;
-import org.paolino.sb2026.model.Category;
 import org.paolino.sb2026.payload.CategoryDTO;
 import org.paolino.sb2026.payload.CategoryResponse;
 import org.paolino.sb2026.service.CategoryService;
@@ -32,9 +31,9 @@ public class CategoryController {
     }
 
     @PutMapping("/public/categories/{categoryId}")
-    public ResponseEntity<String> updateCategory(@Valid @RequestBody Category category, @PathVariable Long categoryId){
-        categoryService.updateCategory(category, categoryId);
-        return new ResponseEntity<>("Category with category id: " + categoryId + " updated.", HttpStatus.OK);
+    public ResponseEntity<CategoryDTO> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO, @PathVariable Long categoryId){
+        CategoryDTO savedCategoryDTO = categoryService.updateCategory(categoryDTO, categoryId);
+        return new ResponseEntity<>(savedCategoryDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/categories/{categoryId}")
