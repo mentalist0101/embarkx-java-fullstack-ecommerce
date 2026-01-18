@@ -1,7 +1,7 @@
-package org.paolino.sb2026.service;
+package org.paolino.sb2026.services;
 
-import org.paolino.sb2026.payload.CategoryDTO;
-import org.paolino.sb2026.payload.CategoryResponse;
+import org.paolino.sb2026.payloads.CategoryDTO;
+import org.paolino.sb2026.payloads.CategoryResponse;
 
 public interface CategoryService {
     CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);

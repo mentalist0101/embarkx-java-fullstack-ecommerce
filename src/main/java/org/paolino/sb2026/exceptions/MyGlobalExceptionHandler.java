@@ -1,6 +1,6 @@
 package org.paolino.sb2026.exceptions;
 
-import org.paolino.sb2026.payload.APIResponse;
+import org.paolino.sb2026.payloads.APIResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

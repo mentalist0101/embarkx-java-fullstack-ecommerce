@@ -1,10 +1,10 @@
-package org.paolino.sb2026.controller;
+package org.paolino.sb2026.controllers;
 
 import jakarta.validation.Valid;
 import org.paolino.sb2026.config.AppConstants;
-import org.paolino.sb2026.payload.CategoryDTO;
-import org.paolino.sb2026.payload.CategoryResponse;
-import org.paolino.sb2026.service.CategoryService;
+import org.paolino.sb2026.payloads.CategoryDTO;
+import org.paolino.sb2026.payloads.CategoryResponse;
+import org.paolino.sb2026.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

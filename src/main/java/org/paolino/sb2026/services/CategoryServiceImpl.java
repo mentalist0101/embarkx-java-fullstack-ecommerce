@@ -1,11 +1,11 @@
-package org.paolino.sb2026.service;
+package org.paolino.sb2026.services;
 
 import org.modelmapper.ModelMapper;
 import org.paolino.sb2026.exceptions.APIException;
 import org.paolino.sb2026.exceptions.ResourceNotFoundException;
-import org.paolino.sb2026.model.Category;
-import org.paolino.sb2026.payload.CategoryDTO;
-import org.paolino.sb2026.payload.CategoryResponse;
+import org.paolino.sb2026.models.Category;
+import org.paolino.sb2026.payloads.CategoryDTO;
+import org.paolino.sb2026.payloads.CategoryResponse;
 import org.paolino.sb2026.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
