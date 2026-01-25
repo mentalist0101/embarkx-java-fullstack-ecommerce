@@ -1,6 +1,7 @@
 package org.paolino.sb2026.services;
 
 import org.modelmapper.ModelMapper;
+import org.paolino.sb2026.exceptions.APIException;
 import org.paolino.sb2026.exceptions.ResourceNotFoundException;
 import org.paolino.sb2026.models.Category;
 import org.paolino.sb2026.models.Product;
@@ -38,18 +39,33 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category","categoryId",categoryId));
-        Product product = modelMapper.map(productDTO, Product.class);
-        product.setCategory(category);
-        product.setImage("default.png");
-        double specialPrice = product.getPrice() - ((product.getDiscount() * 0.01) * product.getPrice());
-        product.setSpecialPrice(specialPrice);
-        Product savedProduct = productRepository.save(product);
-        return modelMapper.map(savedProduct, ProductDTO.class);
+        boolean isProductNotPresent = true;
+        List<Product> categoryProducts = category.getProducts();
+        for (Product p : categoryProducts) {
+            if (p.getProductName().equals(productDTO.getProductName())) {
+                isProductNotPresent = false;
+                break;
+            }
+        }
+        if (isProductNotPresent) {
+            Product product = modelMapper.map(productDTO, Product.class);
+            product.setCategory(category);
+            product.setImage("default.png");
+            double specialPrice = product.getPrice() - ((product.getDiscount() * 0.01) * product.getPrice());
+            product.setSpecialPrice(specialPrice);
+            Product savedProduct = productRepository.save(product);
+            return modelMapper.map(savedProduct, ProductDTO.class);
+        } else {
+            throw new APIException("Product with the name '" + productDTO.getProductName() +
+                                    "' already exists in this category!!");
+        }
     }
-
     @Override
     public ProductResponse getAllProducts() {
         List<Product> products = productRepository.findAll();
+        if (products.isEmpty()){
+            throw new APIException("No products exist!!");
+        }
         List<ProductDTO> productDTOS = products.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))
                 .toList();
