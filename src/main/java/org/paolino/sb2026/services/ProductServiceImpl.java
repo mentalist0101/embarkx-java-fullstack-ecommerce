@@ -9,15 +9,12 @@ import org.paolino.sb2026.payloads.ProductResponse;
 import org.paolino.sb2026.repositories.CategoryRepository;
 import org.paolino.sb2026.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -30,6 +27,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private FileService fileService ;
+
+    @Value("${project.image}")
+    private String path;
 
     @Override
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {
@@ -100,30 +103,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException {
         Product productFromDb = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
-        // Upload image to server and get the file name of uploaded image
-        String path = "images/";
-        String imageFileName = uploadImage(path, image);
-        // Update the new file name to the product and save updated product
+        String imageFileName = fileService.uploadImage(path, image);
         productFromDb.setImage(imageFileName);
         Product updatedProduct = productRepository.save(productFromDb);
-        // return productDTO after mapping product to DTO
         return modelMapper.map(updatedProduct, ProductDTO.class);
-    }
-
-    private String uploadImage(String path, MultipartFile file) throws IOException {
-        // File name of current/original file
-        String imageOriginalFileName = file.getOriginalFilename();
-        // Generate a unique file name (origName.jpg --> randomId --> randomId.jpg)
-        String randomId = UUID.randomUUID().toString();
-        String imageUniqueFileName = randomId.concat(imageOriginalFileName.substring(imageOriginalFileName.lastIndexOf('.')));
-        String filePath = path + File.separator + imageUniqueFileName;
-        // Check if path exist and create
-        File folder = new File(path);
-        if (!folder.exists())
-            folder.mkdir();
-        // Upload to server
-        Files.copy(file.getInputStream(), Paths.get(filePath));
-        // returning file name
-        return imageUniqueFileName;
     }
 }
