@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 @Table(name = "addresses")
@@ -41,4 +44,7 @@ public class Address {
         this.country = country;
         this.pincode = pincode;
     }
+
+    @ManyToMany(mappedBy = "addresses")
+    private List<User> users = new ArrayList<>();
 }
