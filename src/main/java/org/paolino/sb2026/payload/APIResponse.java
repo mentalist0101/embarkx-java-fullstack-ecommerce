@@ -1,4 +1,4 @@
-package org.paolino.sb2026.payloads;
+package org.paolino.sb2026.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

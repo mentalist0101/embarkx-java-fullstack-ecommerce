@@ -1,4 +1,4 @@
-package org.paolino.sb2026.models;
+package org.paolino.sb2026.model;
 
 public enum AppRole {
     ROLE_USER,

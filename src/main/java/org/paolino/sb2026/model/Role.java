@@ -1,4 +1,4 @@
-package org.paolino.sb2026.models;
+package org.paolino.sb2026.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

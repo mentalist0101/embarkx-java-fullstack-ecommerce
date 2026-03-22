@@ -1,7 +1,7 @@
 package org.paolino.sb2026.services;
 
-import org.paolino.sb2026.payloads.ProductDTO;
-import org.paolino.sb2026.payloads.ProductResponse;
+import org.paolino.sb2026.payload.ProductDTO;
+import org.paolino.sb2026.payload.ProductResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

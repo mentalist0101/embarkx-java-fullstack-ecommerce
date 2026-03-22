@@ -2,8 +2,8 @@ package org.paolino.sb2026.controllers;
 
 import jakarta.validation.Valid;
 import org.paolino.sb2026.config.AppConstants;
-import org.paolino.sb2026.payloads.ProductDTO;
-import org.paolino.sb2026.payloads.ProductResponse;
+import org.paolino.sb2026.payload.ProductDTO;
+import org.paolino.sb2026.payload.ProductResponse;
 import org.paolino.sb2026.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

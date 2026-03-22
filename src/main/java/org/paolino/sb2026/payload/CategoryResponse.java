@@ -1,4 +1,4 @@
-package org.paolino.sb2026.payloads;
+package org.paolino.sb2026.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data @NoArgsConstructor @AllArgsConstructor
-public class ProductResponse {
-    private List<ProductDTO> content;
+public class CategoryResponse {
+    private List<CategoryDTO> content;
     private Integer pageNumber;
     private Integer pageSize;
     private Long totalElements;
