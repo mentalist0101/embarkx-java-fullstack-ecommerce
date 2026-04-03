@@ -13,5 +13,4 @@ public class UserInfoResponse {
     private String username;
     private List<String> roles;
     private String jwtToken;
-
 }
