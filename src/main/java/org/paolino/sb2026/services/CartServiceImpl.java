@@ -48,7 +48,6 @@ public class CartServiceImpl implements CartService {
             throw new APIException("Product " + product.getProductName() + " already exists in the cart");
         }
         availableProduct(product, quantity);
-
         CartItem newCartItem = new CartItem();
         newCartItem.setCart(cart);
         newCartItem.setProduct(product);
@@ -59,7 +58,6 @@ public class CartServiceImpl implements CartService {
         // product.setQuantity(product.getQuantity() - quantity);
         cart.setTotalPrice(cart.getTotalPrice() + (product.getSpecialPrice() * quantity));
         cartRepository.save(cart);
-
         return mapCartDTO(cart);
     }
 
@@ -110,7 +108,6 @@ public class CartServiceImpl implements CartService {
             throw new APIException("Product " + product.getProductName() + " not available in the cart!!!");
         }
         availableProduct(product, quantity);
-
         cartItem.setProductPrice(product.getSpecialPrice());
         cartItem.setQuantity(cartItem.getQuantity() + quantity);
         cartItem.setDiscount(product.getDiscount());
@@ -120,8 +117,20 @@ public class CartServiceImpl implements CartService {
         if(updatedItem.getQuantity() == 0){
             cartItemRepository.deleteById(updatedItem.getCartItemId());
         }
-
         return mapCartDTO(cart);
+    }
+
+    @Override
+    public String deleteProductFromCart(Long cartId, Long productId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", cartId));
+        CartItem cartItem = cartItemRepository.findCartItemByProductIdAndCartId(cartId, productId);
+        if (cartItem == null) {
+            throw new ResourceNotFoundException("Product", "productId", productId);
+        }
+        cart.setTotalPrice(cart.getTotalPrice() - (cartItem.getProductPrice() * cartItem.getQuantity()));
+        cartItemRepository.deleteCartItemByProductIdAndCartId(cartId, productId);
+        return "Product " + cartItem.getProduct().getProductName() + " removed from the cart !!!";
     }
 
     private Cart createCart() {
